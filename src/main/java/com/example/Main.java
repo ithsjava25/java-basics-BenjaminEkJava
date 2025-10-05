@@ -23,9 +23,8 @@ public class Main {
 
         // Kontrollerar att zon är giltig
         if (zoneInput == null || !List.of("SE1", "SE2", "SE3", "SE4").contains(zoneInput)) {
-            System.out.println("Ange giltig zon: SE1, SE2, SE3 eller SE4.");
-            Scanner scanner = new Scanner(System.in);
-            zoneInput = scanner.nextLine().trim();
+            System.out.println("Ange giltig zon: --zone SE1, SE2, SE3 eller SE4.");
+            return;
 
         }
 
@@ -200,8 +199,6 @@ public class Main {
 
     // Skriver ut alla priser i tidsordning, timme för timme
     private static void printSorted(List<Elpris> prices) {
-        System.out.println("Sortering av priser enligt 24h intervall:");
-
         Map<ZonedDateTime, Elpris> uniqueMap = new TreeMap<>();
         for (Elpris p : prices) {
             ZonedDateTime start = p.timeStart().withMinute(0).withSecond(0).withNano(0);
@@ -210,7 +207,9 @@ public class Main {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
+        int count = 0;
         for (Map.Entry<ZonedDateTime, Elpris> entry : uniqueMap.entrySet()) {
+            if (count >= 24) break;
             ZonedDateTime start = entry.getKey();
             ZonedDateTime end = start.plusHours(1);
             Elpris p = entry.getValue();
@@ -220,6 +219,7 @@ public class Main {
                     start.format(formatter),
                     end.format(formatter),
                     ore);
+            count++;
         }
     }
 }
