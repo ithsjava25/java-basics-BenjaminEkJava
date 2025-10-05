@@ -45,7 +45,7 @@ public class Main {
 
         }
 
-        // Hämtar akutell tid
+        // Hämtar tid
         ElpriserAPI api = new ElpriserAPI();
         ZonedDateTime now = ZonedDateTime.now();
         LocalDate today;
